@@ -10,15 +10,24 @@
   top: 0;
   left: 0;
   width: 150px;
-  text-align: center;
+}
 
-  &:hover{
-    background-color: @main-black;
-    color: @main-yellow;
-    border-color: @main-black-bg;
-    width: 300px;
+span{
+  color: red;
+  border-radius: 4px;
+  font-size: 22px;
+  animation: iam 2s infinite linear;
+  text-shadow: 1px 1px 1px red;
+}
+
+@keyframes iam {
+  0%{
+    text-shadow: 1px 1px 1px yellow;
   }
-  &:active{
-    color: #ff0000;
+  50%{
+    text-shadow: 1px 1px 4px green;
+  }
+  100%{
+    text-shadow: 1px 1px 1px yellow;
   }
 }

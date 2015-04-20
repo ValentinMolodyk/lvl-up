@@ -1,34 +1,74 @@
+
+var postcss = require('gulp-postcss');
 var gulp = require('gulp');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
+var react = require('gulp-react');
 var less = require('gulp-less');
-var path = require('path');
-var watch = require('gulp-watch');
 var prefix = require('gulp-autoprefixer');
+var htmlreplace = require('gulp-html-replace');
+var autoprefixer = require('autoprefixer-core');
+var mqpacker = require('css-mqpacker');
+var csswring = require('csswring');
+
+var path = {
+  HTML: 'src/index.html',
+  ALL: ['src/js/*.js', 'src/js/**/*.js', 'src/index.html', 'less/*.less'],
+  JS: ['src/js/*.js', 'src/js/**/*.js'],
+  LESS:['less/start.less', 'less/**/start.less'],
+  MINIFIED_OUT: 'build.min.js',
+  DEST_SRC: 'dist/src',
+  DEST_BUILD: 'dist/build',
+  DEST: 'build'
+};
 
 
-gulp.task('default', function () {
-    gulp.src('./css/*.css')
-        .pipe(prefix("last 1 version", "> 1%", "ie 9", "ie 10", { cascade: false }))
-        .pipe(gulp.dest('./css/'));
+gulp.task('transform', function(){
+  gulp.src(path.JS)
+      .pipe(react())
+      .pipe(gulp.dest(path.DEST_SRC));
+});
+
+gulp.task('copy', function(){
+  gulp.src(path.HTML)
+      .pipe(gulp.dest(path.DEST));
 });
 
 gulp.task('less', function () {
-     gulp.src('./less/start.less')
-        .pipe(less())
-         .pipe(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'), {cascade: false})
-        .pipe(gulp.dest('./css'));
-
+  var processors = [
+    autoprefixer({browsers: ['last 5 version']}),
+    mqpacker,
+    csswring
+  ];
+     gulp.src(path.LESS)
+         .pipe(less())
+         .pipe(postcss(processors))
+         .pipe(gulp.dest('css'));
 });
 
-
-// Watcher
-gulp.task('watch', function() {
-    gulp.run('less');
-
-    gulp.watch('less/**/*.less', function() {
-        gulp.run('less');
-    });
+gulp.task('watch', function(){
+  gulp.watch(path.ALL, ['transform', 'copy', 'less']);
 });
+
 gulp.task('default', ['watch']);
 
 
+gulp.task('build', function(){
+  gulp.src(path.JS)
+      .pipe(react())
+      .pipe(concat(path.MINIFIED_OUT))
+      .pipe(uglify(path.MINIFIED_OUT))
+      .pipe(gulp.dest(path.DEST_BUILD));
+});
 
+
+gulp.task('replaceHTML', function(){
+  gulp.src(path.HTML)
+      .pipe(htmlreplace({
+        'js': 'build/' + path.MINIFIED_OUT
+      }))
+      .pipe(gulp.dest(path.DEST));
+});
+
+
+gulp.task('production', ['replaceHTML', 'build']);
