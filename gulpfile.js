@@ -11,6 +11,7 @@ var autoprefixer = require('autoprefixer-core');
 var mqpacker = require('css-mqpacker');
 var csswring = require('csswring');
 
+
 var path = {
   HTML: 'src/index.html',
   ALL: ['src/js/*.js', 'src/js/**/*.js', 'src/index.html', 'less/*.less'],
@@ -29,10 +30,12 @@ gulp.task('transform', function(){
       .pipe(gulp.dest(path.DEST_SRC));
 });
 
+
 gulp.task('copy', function(){
   gulp.src(path.HTML)
       .pipe(gulp.dest(path.DEST));
 });
+
 
 gulp.task('less', function () {
   var processors = [
@@ -40,11 +43,12 @@ gulp.task('less', function () {
     mqpacker,
     csswring
   ];
-     gulp.src(path.LESS)
-         .pipe(less())
-         .pipe(postcss(processors))
-         .pipe(gulp.dest('css'));
+   gulp.src(path.LESS)
+       .pipe(less())
+       .pipe(postcss(processors))
+       .pipe(gulp.dest('css'));
 });
+
 
 gulp.task('watch', function(){
   gulp.watch(path.ALL, ['transform', 'copy', 'less']);

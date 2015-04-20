@@ -1,1 +1,1 @@
-React.render(React.createElement(Parent, null), document.getElementById('app'));
+React.render(React.createElement(CommentsBox, null), document.getElementById('comments'));

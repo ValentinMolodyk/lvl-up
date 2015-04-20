@@ -1,1 +1,1 @@
-React.render(<Parent />, document.getElementById('app'));
+React.render(<CommentsBox />, document.getElementById('comments'));
