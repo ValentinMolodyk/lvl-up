@@ -1,0 +1,24 @@
+.btn{
+  display: inline-block;
+  position: relative;
+  font-size: 16px;
+  border: 1px solid @main-yellow;
+  margin: 100px;
+  padding: 5px 20px;
+  transition: all 0.1s linear;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  width: 150px;
+  text-align: center;
+
+  &:hover{
+    background-color: @main-black;
+    color: @main-yellow;
+    border-color: @main-black-bg;
+    width: 300px;
+  }
+  &:active{
+    color: #ff0000;
+  }
+}

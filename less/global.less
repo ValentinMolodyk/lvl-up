@@ -1,0 +1,48 @@
+html{
+  box-sizing: border-box;
+
+}
+*{
+  box-sizing: inherit;
+}
+body{
+  font-size: 16px;
+  font-weight: normal;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+ul, ol{
+  list-style: none;
+}
+
+.container{
+  padding: 0 ;
+  background-color: @main-light-gray;
+
+  &__in{
+    margin: auto;
+    max-width: 1366px;
+    background: @main-light-gray;
+    box-shadow: 0 -2px 5px #ccc;
+  }
+
+
+
+}
+.clearfix:after,
+.foo:after,
+.bar:after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
+}
+
+.max-w{
+  width: 50%;
+}
+.fotorama__thumb-border{
+  border-color: #ff0000;
+}
+.fotorama__caption{
+  line-height: 5;
+}
